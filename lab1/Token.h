@@ -18,7 +18,7 @@ private:
     int line;
 
 public:
-    Token(TokenType type) : type(type) {}
+    Token(TokenType type, string value, int line) : type(type), value(value), line(line) {}
 
     string toString() const
     {
