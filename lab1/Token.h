@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <typeinfo>
 
 using namespace std;
 
@@ -8,6 +9,8 @@ enum TokenType
 {
     COMMA,
     PERIOD,
+    STRING,
+    NUMBER,
 };
 
 class Token
@@ -23,7 +26,19 @@ public:
     string toString() const
     {
         stringstream out;
-        out << "(" << type << "," << "\"" << value << "\"" << "," << line << ")";
+        out << "(" << typeName(type) << "," << "\"" << value << "\"" << "," << line << ")";
         return out.str();
+    }
+
+    string typeName(TokenType type) const
+    {
+        if (type == COMMA)
+        {
+            return "COMMA";
+        }
+        if (type == PERIOD)
+        {
+            return "PERIOD";
+        }
     }
 };
