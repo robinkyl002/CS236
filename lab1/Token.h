@@ -10,7 +10,21 @@ enum TokenType
     COMMA,
     PERIOD,
     STRING,
-    NUMBER,
+    Q_MARK,
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    COLON,
+    COLON_DASH,
+    MULTIPLY,
+    ADD,
+    SCHEMES,
+    FACTS,
+    RULES,
+    QUERIES,
+    ID,
+    COMMENT,
+    UNDEFINED,
+    END
 };
 
 class Token
@@ -32,13 +46,44 @@ public:
 
     string typeName(TokenType type) const
     {
-        if (type == COMMA)
+        switch (type)
         {
+        case COMMA:
             return "COMMA";
-        }
-        if (type == PERIOD)
-        {
+        case PERIOD:
             return "PERIOD";
+        case STRING:
+            return "STRING";
+        case Q_MARK:
+            return "Q_MARK";
+        case LEFT_PAREN:
+            return "LEFT_PAREN";
+        case RIGHT_PAREN:
+            return "RIGHT_PAREN";
+        case COLON:
+            return "COLON";
+        case COLON_DASH:
+            return "COLON_DASH";
+        case MULTIPLY:
+            return "MULTIPLY";
+        case ADD:
+            return "ADD";
+        case SCHEMES:
+            return "SCHEMES";
+        case FACTS:
+            return "FACTS";
+        case RULES:
+            return "RULES";
+        case QUERIES:
+            return "QUERIES";
+        case ID:
+            return "ID";
+        case COMMENT:
+            return "COMMENT";
+        case UNDEFINED:
+            return "UNDEFINED";
+        case END:
+            return "END";
         }
     }
 };
