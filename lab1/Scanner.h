@@ -15,10 +15,10 @@ public:
     Scanner(const string &input) : input(input) {}
     Token scanToken()
     {
-        TokenType type = COMMA;
-        string value = ",";
-        int line = 4;
-        return Token(type, value, line);
+        // TokenType type = UNDEFINED;
+        // string value = ",";
+        Token token = Token(UNDEFINED, "", 0);
+        int line = 3;
 
         /*
         while the first character in the input is whitespace,
@@ -28,5 +28,11 @@ public:
         {
             input = input.substr(1);
         }
+        if (input.at(0) == ',')
+        {
+            return Token(COMMA, ",", line);
+        }
+
+        return token;
     }
 };
