@@ -10,15 +10,15 @@ class Scanner
 {
 private:
     string input;
+    int line;
 
 public:
-    Scanner(const string &input) : input(input) {}
+    Scanner(const string &input, int line) : input(input), line(line) {}
     Token scanToken()
     {
         // TokenType type = UNDEFINED;
         // string value = ",";
         Token token = Token(UNDEFINED, "", 0);
-        int line = 3;
 
         /*
         while the first character in the input is whitespace,

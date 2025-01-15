@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    Scanner s = Scanner("   , , ");
+    Scanner s = Scanner("   .", 4);
     Token t = s.scanToken();
     cout << t.toString() << endl;
 
