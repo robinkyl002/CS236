@@ -1,0 +1,4 @@
+(COMMENT,"# undefined character",3)
+(UNDEFINED,"@",5)
+(END,"",8)
+Total Tokens = 3
