@@ -28,9 +28,30 @@ public:
         {
             input = input.substr(1);
         }
-        if (input.at(0) == ',')
+        // if (input.at(0) == ',')
+        // {
+        //     return Token(COMMA, ",", line);
+        // }
+        switch (input.at(0))
         {
+        case ',':
             return Token(COMMA, ",", line);
+        case '.':
+            return Token(PERIOD, ".", line);
+        case '?':
+            return Token(Q_MARK, "?", line);
+        case '(':
+            return Token(LEFT_PAREN, "(", line);
+        case ')':
+            return Token(RIGHT_PAREN, ")", line);
+        case ':':
+            return Token(COLON, ":", line);
+        case ';':
+            return Token(COLON_DASH, ";", line);
+        case '*':
+            return Token(MULTIPLY, "*", line);
+        case '+':
+            return Token(ADD, "+", line);
         }
 
         return token;
