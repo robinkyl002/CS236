@@ -52,6 +52,25 @@ public:
             return Token(MULTIPLY, "*", line);
         case '+':
             return Token(ADD, "+", line);
+        // TODO: Implement FSM for these cases
+        case '\'':
+            return Token(STRING, "", line);
+        case SCHEMES:
+            return Token(SCHEMES, "Schemes", line);
+        case FACTS:
+            return Token(FACTS, "Facts", line);
+        case RULES:
+            return Token(RULES, "Rules", line);
+        case QUERIES:
+            return Token(QUERIES, "Queries", line);
+        case ID:
+            return Token(ID, "IDNAME_REPLACEME", line);
+        case COMMENT:
+            return Token(COMMENT, "Comment", line);
+        case UNDEFINED:
+            return Token(UNDEFINED, "", line);
+        case END:
+            return Token(END, "", line);
         }
 
         return token;
