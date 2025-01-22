@@ -12,8 +12,12 @@ private:
     string input;
     int line;
 
+    Token identifierFiniteStateMachine(char input)
+    {
+    }
+
 public:
-    Scanner(const string &input, int line) : input(input), line(line) {}
+    Scanner(const string &input, int line) : input(input), line(line) { int tokens = 0; }
     Token scanToken()
     {
         // TokenType type = UNDEFINED;
@@ -64,7 +68,7 @@ public:
         case QUERIES:
             return Token(QUERIES, "Queries", line);
         case ID:
-            return Token(ID, "IDNAME_REPLACEME", line);
+            return Token(ID, "IDNAME_REPLACE_ME", line);
         case COMMENT:
             return Token(COMMENT, "Comment", line);
         case UNDEFINED:
