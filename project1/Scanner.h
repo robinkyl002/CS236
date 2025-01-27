@@ -1,8 +1,10 @@
 #pragma once
 #include "Token.h"
+#include "FiniteStateMachines.h"
 #include <string>
 #include <sstream>
 #include <cctype>
+#include <vector>
 
 using namespace std;
 
@@ -11,72 +13,155 @@ class Scanner
 private:
     string input;
     int line;
-
-    Token identifierFiniteStateMachine(char input)
-    {
-    }
+    int length;
+    int tokens;
+    vector<Token> allTokens;
 
 public:
-    Scanner(const string &input, int line) : input(input), line(line) { int tokens = 0; }
+    Scanner(const string &input) : input(input)
+    {
+        tokens = 0;
+        line = 1;
+    }
     Token scanToken()
     {
-        // TokenType type = UNDEFINED;
-        // string value = ",";
-        Token token = Token(UNDEFINED, "", 0);
+        Token token = Token(UNDEFINED, "", line);
+        FiniteStateMachines fsm = FiniteStateMachines(input);
+
+        TokenType type = fsm.findTokenType();
+        length = fsm.getTokenLength();
+        line = fsm.getNewLines();
+        string output = "";
 
         /*
         while the first character in the input is whitespace,
         create substring starting with the second character
         */
-        while (isspace(input.at(0)))
+        switch (type)
         {
-            input = input.substr(1);
-        }
-        // if (input.at(0) == ',')
-        // {
-        //     return Token(COMMA, ",", line);
-        // }
-        switch (input.at(0))
-        {
-        case ',':
+
+        case COMMA:
+            updateInputString();
             return Token(COMMA, ",", line);
-        case '.':
+        case PERIOD:
+            updateInputString();
             return Token(PERIOD, ".", line);
-        case '?':
+        case Q_MARK:
+            updateInputString();
             return Token(Q_MARK, "?", line);
-        case '(':
+        case LEFT_PAREN:
+            updateInputString();
             return Token(LEFT_PAREN, "(", line);
-        case ')':
+        case RIGHT_PAREN:
+            updateInputString();
             return Token(RIGHT_PAREN, ")", line);
-        case ':':
+        case COLON:
+            updateInputString();
             return Token(COLON, ":", line);
-        case ';':
-            return Token(COLON_DASH, ";", line);
-        case '*':
+        case COLON_DASH:
+            updateInputString();
+            return Token(COLON_DASH, ":-", line);
+        case MULTIPLY:
+            updateInputString();
             return Token(MULTIPLY, "*", line);
-        case '+':
+        case ADD:
+            updateInputString();
             return Token(ADD, "+", line);
-        // TODO: Implement FSM for these cases
-        case '\'':
-            return Token(STRING, "", line);
+            // case '\n':
+            //     line++;
+        case STRING:
+            output = input.substr(0, length);
+            updateInputString();
+            return Token(STRING, output, line);
         case SCHEMES:
+            updateInputString();
             return Token(SCHEMES, "Schemes", line);
         case FACTS:
+            updateInputString();
             return Token(FACTS, "Facts", line);
         case RULES:
+            updateInputString();
             return Token(RULES, "Rules", line);
         case QUERIES:
+            updateInputString();
             return Token(QUERIES, "Queries", line);
         case ID:
-            return Token(ID, "IDNAME_REPLACE_ME", line);
+            output = input.substr(0, length);
+            updateInputString();
+            return Token(ID, output, line);
         case COMMENT:
-            return Token(COMMENT, "Comment", line);
+            output = input.substr(0, length);
+            updateInputString();
+            return Token(COMMENT, output, line);
         case UNDEFINED:
-            return Token(UNDEFINED, "", line);
-        case END:
-            return Token(END, "", line);
+            output = input.substr(0, length);
+            updateInputString();
+            return Token(UNDEFINED, output, line);
+
+        default:
+            input = input.substr(1);
+            return Token(UNDEFINED, to_string(input.at(0)), line);
         }
 
         return token;
+
+        // switch (input.at(0))
+        // {
+        // // TODO: Implement FSM for these cases
+        // case END:
+        //     return Token(END, "", line);
+        // }
+
+        // return token;
+
+        // Token endToken = Token(END, "", line);
+
+        // cout << endToken.toString() << endl;
+        // cout << "Tokens: " << tokens;
+    }
+
+    void updateInputString()
+    {
+        input = input.substr(length);
+    }
+
+    vector<Token> scanAllTokens()
+    {
+
+        while (input.size() != 0)
+        {
+            while (isspace(input.at(0)))
+            {
+                if (input.at(0) == '\n')
+                {
+                    line++;
+                }
+                input = input.substr(1);
+                if (input.size() == 0)
+                {
+                    allTokens.push_back(Token(END, "", line));
+                    return allTokens;
+                }
+            }
+
+            allTokens.push_back(scanToken());
+            // cout << input << endl;
+        }
+        allTokens.push_back(Token(END, "", line));
+        return allTokens;
+    }
+
+    void stringifyTokens()
+    {
+        for (Token token : allTokens)
+        {
+            cout << token.toString() << endl;
+        }
+        cout << "Total Tokens: " << allTokens.size() << endl;
+    }
+
+    void setLength()
+    {
+        length++;
     }
 };
