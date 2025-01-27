@@ -242,7 +242,7 @@ public:
                 charCount++;
                 location++;
             }
-            newLineFSM(location);
+            // newLineFSM(location);
         }
         return charCount;
     }

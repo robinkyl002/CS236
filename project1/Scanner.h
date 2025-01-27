@@ -104,20 +104,6 @@ public:
         }
 
         return token;
-
-        // switch (input.at(0))
-        // {
-        // // TODO: Implement FSM for these cases
-        // case END:
-        //     return Token(END, "", line);
-        // }
-
-        // return token;
-
-        // Token endToken = Token(END, "", line);
-
-        // cout << endToken.toString() << endl;
-        // cout << "Tokens: " << tokens;
     }
 
     void updateInputString()
@@ -157,7 +143,7 @@ public:
         {
             cout << token.toString() << endl;
         }
-        cout << "Total Tokens: " << allTokens.size() << endl;
+        cout << "Total Tokens = " << allTokens.size() << endl;
     }
 
     void setLength()

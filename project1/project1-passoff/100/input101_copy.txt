@@ -12,4 +12,3 @@ Queries:major('North',Major)?
 major(Name,'MATH')?major(Name,'MATH')?
 major(Name,'MATH')?major(Name,'MATH')?
 
-
