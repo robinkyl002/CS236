@@ -314,7 +314,6 @@ public:
                 type = length.first;
             }
         }
-        cout << tokenLength << endl;
         return type;
     }
 
