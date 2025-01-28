@@ -9,4 +9,5 @@ add_executable(project1
         FiniteStateMachines.h
         main.cpp
         Scanner.h
-        Token.h)
+        Token.h
+        project1-passoff)

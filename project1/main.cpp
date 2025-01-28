@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     vector<Token> tokens;
 
     ifstream in;
-    in.open(argv[1]);
+    in.open(argv[0]);
     stringstream ss;
     ss << in.rdbuf();
     string input = ss.str();
