@@ -14,17 +14,18 @@ private:
     string input;
     int line;
     int length;
-    int tokens;
+    // int tokens;
     vector<Token> allTokens;
 
 public:
     Scanner(const string &input) : input(input)
     {
-        tokens = 0;
+        // tokens = 0;
         line = 1;
     }
     Token scanToken()
     {
+    
         Token token = Token(UNDEFINED, "", line);
         FiniteStateMachines fsm = FiniteStateMachines(input);
 
@@ -114,7 +115,7 @@ public:
     vector<Token> scanAllTokens()
     {
 
-        while (input.size() != 0)
+        while (!input.empty())
         {
             while (isspace(input.at(0)))
             {
@@ -131,7 +132,6 @@ public:
             }
 
             allTokens.push_back(scanToken());
-            // cout << input << endl;
         }
         allTokens.push_back(Token(END, "", line));
         return allTokens;
@@ -146,8 +146,8 @@ public:
         cout << "Total Tokens = " << allTokens.size() << endl;
     }
 
-    void setLength()
-    {
-        length++;
-    }
+    // void setLength()
+    // {
+    //     length++;
+    // }
 };

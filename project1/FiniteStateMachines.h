@@ -184,7 +184,7 @@ public:
 
         if (isalpha(input.at(location)))
         {
-            while (isalpha(input.at(location)))
+            while (!isspace(input.at(location)))
             {
                 charCount++;
                 location++;
