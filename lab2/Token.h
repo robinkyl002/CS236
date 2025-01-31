@@ -9,7 +9,6 @@ enum TokenType
 {
     COMMA,
     PERIOD,
-    STRING,
     Q_MARK,
     LEFT_PAREN,
     RIGHT_PAREN,
@@ -22,6 +21,7 @@ enum TokenType
     RULES,
     QUERIES,
     ID,
+    STRING,
     COMMENT,
     UNDEFINED,
     END
@@ -52,8 +52,6 @@ public:
             return "COMMA";
         case PERIOD:
             return "PERIOD";
-        case STRING:
-            return "STRING";
         case Q_MARK:
             return "Q_MARK";
         case LEFT_PAREN:
@@ -78,6 +76,8 @@ public:
             return "QUERIES";
         case ID:
             return "ID";
+        case STRING:
+            return "STRING";
         case COMMENT:
             return "COMMENT";
         case UNDEFINED:
@@ -85,5 +85,9 @@ public:
         case END:
             return "END";
         }
+    }
+    
+    TokenType getType() const{
+        return type;
     }
 };
