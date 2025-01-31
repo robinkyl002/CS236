@@ -49,4 +49,17 @@ class Parser {
             //lambda
         }
     }
+    
+    void scheme() {
+        if (tokenType() == SCHEMES) {
+            match(ID);
+            match(LEFT_PAREN);
+            match(ID);
+            idList();
+            match(RIGHT_PAREN);
+        }
+        else {
+            //lambda
+        }
+    }
 };
