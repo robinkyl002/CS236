@@ -31,11 +31,22 @@ class Parser {
     */
     void match(TokenType t) {
         cout << "match: " << t << endl;
-        if (tokens.at(0).getType() == t) {
+        if (tokenType() == t) {
             advanceToken();
         }
         else {
             throwError();
+        }
+    }
+    
+    void idList () {
+        if(tokenType() = COMMA) {
+            match(COMMA);
+            match(ID);
+            idList();
+        }
+        else {
+            //lambda
         }
     }
 };
