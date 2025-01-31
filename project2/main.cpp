@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
 
     tokens = s.scanAllTokens();
 
-    s.stringifyTokens();
+    // s.stringifyTokens();
+    
+    Parser p = Parser(tokens);
 
     return 0;
 }
