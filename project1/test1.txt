@@ -29,6 +29,3 @@ Hello:-World
 42Line
 
 8Col4Row
-
-
-

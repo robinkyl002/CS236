@@ -94,6 +94,9 @@
 		<Unit filename="/Users/mathd/Documents/School/CS/CS_236/project1/main.cpp">
 			<Option target="project1"/>
 		</Unit>
+		<Unit filename="/Users/mathd/Documents/School/CS/CS_236/project1/project1-passoff">
+			<Option target="project1"/>
+		</Unit>
 		<Unit filename="/Users/mathd/Documents/School/CS/CS_236/project1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

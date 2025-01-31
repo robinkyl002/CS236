@@ -1,3 +1,4 @@
 {
-  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+  "makefile.makefilePath": "~/Documents/School/CS/CS_236/project1/CMakeLists.txt"
 }

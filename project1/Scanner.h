@@ -14,13 +14,11 @@ private:
     string input;
     int line;
     int length;
-    // int tokens;
     vector<Token> allTokens;
 
 public:
     Scanner(const string &input) : input(input)
     {
-        // tokens = 0;
         line = 1;
     }
     Token scanToken()
@@ -31,7 +29,7 @@ public:
 
         TokenType type = fsm.findTokenType();
         length = fsm.getTokenLength();
-        line = fsm.getNewLines();
+        line = line + fsm.getNewLines();
         string output = "";
 
         /*
@@ -42,62 +40,60 @@ public:
         {
 
         case COMMA:
-            updateInputString();
+            input = input.substr(1);
             return Token(COMMA, ",", line);
         case PERIOD:
-            updateInputString();
+            input = input.substr(1);
             return Token(PERIOD, ".", line);
         case Q_MARK:
-            updateInputString();
+            input = input.substr(1);
             return Token(Q_MARK, "?", line);
         case LEFT_PAREN:
-            updateInputString();
+            input = input.substr(1);
             return Token(LEFT_PAREN, "(", line);
         case RIGHT_PAREN:
-            updateInputString();
+            input = input.substr(1);
             return Token(RIGHT_PAREN, ")", line);
         case COLON:
-            updateInputString();
+            input = input.substr(1);
             return Token(COLON, ":", line);
         case COLON_DASH:
-            updateInputString();
+            input = input.substr(2);
             return Token(COLON_DASH, ":-", line);
         case MULTIPLY:
-            updateInputString();
+            input = input.substr(1);
             return Token(MULTIPLY, "*", line);
         case ADD:
-            updateInputString();
+            input = input.substr(1);
             return Token(ADD, "+", line);
-            // case '\n':
-            //     line++;
         case STRING:
             output = input.substr(0, length);
-            updateInputString();
-            return Token(STRING, output, line);
+            input = input.substr(length);
+            return Token(STRING, output, (line-fsm.getNewLines()));
         case SCHEMES:
-            updateInputString();
+            input = input.substr(7);
             return Token(SCHEMES, "Schemes", line);
         case FACTS:
-            updateInputString();
+            input = input.substr(5);
             return Token(FACTS, "Facts", line);
         case RULES:
-            updateInputString();
+            input = input.substr(5);
             return Token(RULES, "Rules", line);
         case QUERIES:
-            updateInputString();
+            input = input.substr(7);
             return Token(QUERIES, "Queries", line);
         case ID:
             output = input.substr(0, length);
-            updateInputString();
+            input = input.substr(length);
             return Token(ID, output, line);
         case COMMENT:
             output = input.substr(0, length);
-            updateInputString();
+            input = input.substr(length);
             return Token(COMMENT, output, line);
         case UNDEFINED:
             output = input.substr(0, length);
-            updateInputString();
-            return Token(UNDEFINED, output, line);
+            input = input.substr(length);
+            return Token(UNDEFINED, output, (line-fsm.getNewLines()));
 
         default:
             input = input.substr(1);
@@ -107,10 +103,6 @@ public:
         return token;
     }
 
-    void updateInputString()
-    {
-        input = input.substr(length);
-    }
 
     vector<Token> scanAllTokens()
     {
@@ -124,13 +116,15 @@ public:
                     line++;
                 }
                 input = input.substr(1);
-                if (input.size() == 0)
+//                cout << input << endl;
+//                cout << "Line: " << line << endl;
+//                cout << endl;
+                if (input.empty())
                 {
                     allTokens.push_back(Token(END, "", line));
                     return allTokens;
                 }
             }
-
             allTokens.push_back(scanToken());
         }
         allTokens.push_back(Token(END, "", line));
@@ -145,9 +139,4 @@ public:
         }
         cout << "Total Tokens = " << allTokens.size() << endl;
     }
-
-    // void setLength()
-    // {
-    //     length++;
-    // }
 };

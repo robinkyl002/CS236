@@ -10,4 +10,5 @@ add_executable(project1
         main.cpp
         Scanner.h
         Token.h
-        project1-passoff)
+        project1-passoff/
+        )
