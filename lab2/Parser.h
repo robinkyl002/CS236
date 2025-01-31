@@ -23,4 +23,14 @@ class Parser {
     void throwError() {
         cout << "error" << endl;
     }
+    
+    void match(TokenType t) {
+        cout << "match: " << t << endl;
+        if (tokens.at(0).getType() == t) {
+            advanceToken();
+        }
+        else {
+            throwError();
+        }
+    }
 };
