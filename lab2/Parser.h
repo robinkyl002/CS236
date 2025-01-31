@@ -24,6 +24,11 @@ class Parser {
         cout << "error" << endl;
     }
     
+    /*
+    checks to see whether TokenType entered matches current token
+    prints out what token it is trying to match with, then advances token if it matches
+    error is thrown if the type doesn't match, and advanceToken is not called
+    */
     void match(TokenType t) {
         cout << "match: " << t << endl;
         if (tokens.at(0).getType() == t) {
