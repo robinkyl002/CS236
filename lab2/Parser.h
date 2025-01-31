@@ -51,7 +51,7 @@ class Parser {
     }
     
     void scheme() {
-        if (tokenType() == SCHEMES) {
+        if (tokenType() == ID) {
             match(ID);
             match(LEFT_PAREN);
             match(ID);
