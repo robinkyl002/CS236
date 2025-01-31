@@ -40,7 +40,7 @@ class Parser {
     }
     
     void idList () {
-        if(tokenType() = COMMA) {
+        if(tokenType() == COMMA) {
             match(COMMA);
             match(ID);
             idList();
