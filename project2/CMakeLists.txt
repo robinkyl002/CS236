@@ -1,0 +1,62 @@
+cmake_minimum_required(VERSION 3.30)
+project(project2)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(.)
+
+add_executable(project2
+        project2-passoff/100/answer101.txt
+        project2-passoff/100/answer102.txt
+        project2-passoff/100/answer103.txt
+        project2-passoff/100/input101.txt
+        project2-passoff/100/input102.txt
+        project2-passoff/100/input103.txt
+        project2-passoff/20/answer21.txt
+        project2-passoff/20/answer22.txt
+        project2-passoff/20/input21.txt
+        project2-passoff/20/input22.txt
+        project2-passoff/40/answer41.txt
+        project2-passoff/40/answer42.txt
+        project2-passoff/40/answer43.txt
+        project2-passoff/40/answer44.txt
+        project2-passoff/40/answer45.txt
+        project2-passoff/40/answer46.txt
+        project2-passoff/40/answer47.txt
+        project2-passoff/40/answer48.txt
+        project2-passoff/40/input41.txt
+        project2-passoff/40/input42.txt
+        project2-passoff/40/input43.txt
+        project2-passoff/40/input44.txt
+        project2-passoff/40/input45.txt
+        project2-passoff/40/input46.txt
+        project2-passoff/40/input47.txt
+        project2-passoff/40/input48.txt
+        project2-passoff/60/answer61.txt
+        project2-passoff/60/answer62.txt
+        project2-passoff/60/input61.txt
+        project2-passoff/60/input62.txt
+        project2-passoff/80/answer81.txt
+        project2-passoff/80/answer82.txt
+        project2-passoff/80/answer83.txt
+        project2-passoff/80/answer84.txt
+        project2-passoff/80/answer85.txt
+        project2-passoff/80/answer86.txt
+        project2-passoff/80/answer87.txt
+        project2-passoff/80/input81.txt
+        project2-passoff/80/input82.txt
+        project2-passoff/80/input83.txt
+        project2-passoff/80/input84.txt
+        project2-passoff/80/input85.txt
+        project2-passoff/80/input86.txt
+        project2-passoff/80/input87.txt
+        DatalogProgram.h
+        FiniteStateMachines.h
+        main.cpp
+        Parameter.h
+        Parser.h
+        Predicate.h
+        Rule.h
+        run-tests.sh
+        Scanner.h
+        Token.h)
