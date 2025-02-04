@@ -152,10 +152,6 @@ public:
                         location++;
                     }
             }
-
-            // if (idCount == ruleCount || idCount == schemeCount || idCount == queryCount || idCount == factCount) {
-            //     idCount = 0;
-            // }
             return idCount;
         }
         return idCount;
@@ -179,8 +175,6 @@ public:
             while (input.at(location) != '\'')
             {
                 charCount++;
-                // location++;
-                // newLineFSM(location);
                 if (input.at(location) == '\n') {
                     tempLine++;
                 }
@@ -215,7 +209,6 @@ public:
                 charCount++;
                 location++;
             }
-            // newLineFSM(location);
         }
         return charCount;
     }
@@ -242,8 +235,6 @@ public:
             while (input.at(location) != '\'')
             {
                 charCount++;
-                // location++;
-                // newLineFSM(input.at(location));
                 
                 if (input.at(location) == '\n') {
                     tempLine++;

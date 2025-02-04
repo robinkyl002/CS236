@@ -116,9 +116,7 @@ public:
                     line++;
                 }
                 input = input.substr(1);
-//                cout << input << endl;
-//                cout << "Line: " << line << endl;
-//                cout << endl;
+
                 if (input.empty())
                 {
                     allTokens.push_back(Token(END, "", line));
