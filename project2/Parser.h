@@ -50,6 +50,17 @@ class Parser {
         }
     }
     
+    void stringList() {
+        if (tokenType() == COMMA) {
+            match(COMMA);
+            match(STRING);
+            stringList();
+        }
+        else {
+            // lambda
+        }
+    }
+    
     void scheme() {
         if (tokenType() == ID) {
             match(ID);
