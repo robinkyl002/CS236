@@ -1,5 +1,9 @@
 #pragma once
 #include "Token.h"
+#include "DatalogProgram.h"
+#include "Rule.h"
+#include "Predicate.h"
+#include "Parameter.h"
 #include <iostream>
 #include <vector>
 
@@ -73,4 +77,20 @@ class Parser {
             //lambda
         }
     }
+    
+    void fact() {
+        if (tokenType() == ID) {
+            match(ID);
+            match(LEFT_PAREN);
+            match(STRING);
+            stringList();
+            match(RIGHT_PAREN);
+            match(PERIOD);
+        }
+        else {
+            //lambda
+        }
+    }
+    
+    
 };
