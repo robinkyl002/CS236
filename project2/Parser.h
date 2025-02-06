@@ -36,6 +36,7 @@ class Parser {
     void match(TokenType t) {
         cout << "match: " << t << endl;
         if (tokenType() == t) {
+            //TODO: add code to make it add Token to correct list
             advanceToken();
         }
         else {
