@@ -23,7 +23,7 @@ public:
     }
     Token scanToken()
     {
-    
+
         Token token = Token(UNDEFINED, "", line);
         FiniteStateMachines fsm = FiniteStateMachines(input);
 
@@ -69,7 +69,7 @@ public:
         case STRING:
             output = input.substr(0, length);
             input = input.substr(length);
-            return Token(STRING, output, (line-fsm.getNewLines()));
+            return Token(STRING, output, (line - fsm.getNewLines()));
         case SCHEMES:
             input = input.substr(7);
             return Token(SCHEMES, "Schemes", line);
@@ -90,10 +90,12 @@ public:
             output = input.substr(0, length);
             input = input.substr(length);
             return Token(COMMENT, output, line);
+            // input = input.substr(length);
+            // return scanToken();
         case UNDEFINED:
             output = input.substr(0, length);
             input = input.substr(length);
-            return Token(UNDEFINED, output, (line-fsm.getNewLines()));
+            return Token(UNDEFINED, output, (line - fsm.getNewLines()));
 
         default:
             input = input.substr(1);
@@ -103,10 +105,8 @@ public:
         return token;
     }
 
-
     vector<Token> scanAllTokens()
     {
-
         while (!input.empty())
         {
             while (isspace(input.at(0)))
@@ -123,8 +123,14 @@ public:
                     return allTokens;
                 }
             }
-            allTokens.push_back(scanToken());
+
+            Token token = scanToken();
+            if (token.getType() != COMMENT)
+            {
+                allTokens.push_back(token);
+            }
         }
+
         allTokens.push_back(Token(END, "", line));
         return allTokens;
     }
