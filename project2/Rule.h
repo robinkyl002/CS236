@@ -14,12 +14,15 @@ public:
 
     string toString()
     {
-        headPredicate.toString();
-        cout << ":-";
+        string rule;
+
+        rule = headPredicate.toString();
+        rule += ":-";
         for (int i = 0; i < predicateList.size(); i++)
         {
-            predicateList.at(i).toString();
+            rule += predicateList.at(i).toString();
         }
-        cout << endl;
+
+        return rule;
     }
 };
