@@ -1,86 +1,115 @@
 #pragma once
 #include "Token.h"
-#include "DatalogProgram.h"
-#include "Rule.h"
-#include "Predicate.h"
-#include "Parameter.h"
+// #include "DatalogProgram.h"
+// #include "Rule.h"
+// #include "Predicate.h"
+// #include "Parameter.h"
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-class Parser {
-    private:
+class Parser
+{
+private:
     vector<Token> tokens;
-    
-    public:
-    Parser (const vector<Token>& tokens) : tokens(tokens) {}
-    
-    TokenType tokenType() const{
+
+public:
+    Parser(const vector<Token> &tokens) : tokens(tokens) {}
+
+    void parser()
+    {
+        // Replace this with code that will be executed for parser
+        cout << "Tokens: " << tokens.size();
+
+        for (int i = 0; i < tokens.size(); i++)
+        {
+            cout << tokens.at(i).toString() << endl;
+        }
+    }
+
+    TokenType tokenType() const
+    {
         return tokens.at(0).getType();
     }
-    
-    void advanceToken() {
+
+    void advanceToken()
+    {
         tokens.erase(tokens.begin());
     }
-    
-    void throwError() {
+
+    void throwError()
+    {
         cout << "error" << endl;
     }
-    
+
     /*
     checks to see whether TokenType entered matches current token
     prints out what token it is trying to match with, then advances token if it matches
     error is thrown if the type doesn't match, and advanceToken is not called
     */
-    void match(TokenType t) {
+    void match(TokenType t)
+    {
         cout << "match: " << t << endl;
-        if (tokenType() == t) {
-            //TODO: add code to make it add Token to correct list
+        if (tokenType() == t)
+        {
+            // TODO: add code to make it add Token to correct list
             advanceToken();
         }
-        else {
+        else
+        {
             throwError();
         }
     }
-    
-    void idList () {
-        if(tokenType() == COMMA) {
+
+    void idList()
+    {
+        if (tokenType() == COMMA)
+        {
             match(COMMA);
             match(ID);
             idList();
         }
-        else {
-            //lambda
+        else
+        {
+            // lambda
         }
     }
-    
-    void stringList() {
-        if (tokenType() == COMMA) {
+
+    void stringList()
+    {
+        if (tokenType() == COMMA)
+        {
             match(COMMA);
             match(STRING);
             stringList();
         }
-        else {
+        else
+        {
             // lambda
         }
     }
-    
-    void scheme() {
-        if (tokenType() == ID) {
+
+    void scheme()
+    {
+        if (tokenType() == ID)
+        {
             match(ID);
             match(LEFT_PAREN);
             match(ID);
             idList();
             match(RIGHT_PAREN);
         }
-        else {
-            //lambda
+        else
+        {
+            // lambda
         }
     }
-    
-    void fact() {
-        if (tokenType() == ID) {
+
+    void fact()
+    {
+        if (tokenType() == ID)
+        {
             match(ID);
             match(LEFT_PAREN);
             match(STRING);
@@ -88,10 +117,9 @@ class Parser {
             match(RIGHT_PAREN);
             match(PERIOD);
         }
-        else {
-            //lambda
+        else
+        {
+            // lambda
         }
     }
-    
-    
 };
