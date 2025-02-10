@@ -86,8 +86,14 @@ public:
             return "END";
         }
     }
-    
-    TokenType getType() const{
+
+    TokenType getType() const
+    {
         return type;
+    }
+
+    string getValue() const
+    {
+        return value;
     }
 };
