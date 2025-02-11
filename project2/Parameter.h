@@ -8,12 +8,13 @@ class Parameter
 {
 private:
     Token token;
+    string parameterName;
 
 public:
-    Parameter(Token token) : token(token) {}
+    Parameter(Token token) : token(token), parameterName(token.getValue()) {}
 
     string toString()
     {
-        return token.getValue();
+        return parameterName;
     }
 };

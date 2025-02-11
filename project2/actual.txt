@@ -1,2 +1,11 @@
-Failure !
-  (ID,"parent",15)
+Success!
+Schemes(3):
+  sister(x,y)
+  parent(x,y)
+  aunt(x,y)
+Facts(2):
+  sister(.
+  parent(.
+Rules(0):
+Queries(0):
+Domain(0):

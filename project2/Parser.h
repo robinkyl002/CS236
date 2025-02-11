@@ -1,9 +1,9 @@
 #pragma once
 #include "Token.h"
-// #include "DatalogProgram.h"
-// #include "Rule.h"
-// #include "Predicate.h"
-// #include "Parameter.h"
+#include "DatalogProgram.h"
+#include "Rule.h"
+#include "Predicate.h"
+#include "Parameter.h"
 #include <iostream>
 #include <vector>
 
@@ -13,9 +13,14 @@ class Parser
 {
 private:
     vector<Token> tokens;
+    string name;
+    vector<Parameter> parameters;
+    vector<Parameter> domain;
+    DatalogProgram dp = DatalogProgram();
+
 
 public:
-    Parser(const vector<Token> &tokens) : tokens(tokens) {}
+    Parser(const vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain() {}
 
     void datalogProgram()
     {
@@ -42,6 +47,8 @@ public:
         queryList();
 
         match(END);
+
+        cout << dp.toString();
     }
 
     TokenType tokenType() const
@@ -54,10 +61,10 @@ public:
         tokens.erase(tokens.begin());
     }
 
-    void throwError()
-    {
-        cout << "error" << endl;
-    }
+//    void throwError()
+//    {
+//        cout << "error" << endl;
+//    }
 
     /*
     checks to see whether TokenType entered matches current token
@@ -73,6 +80,11 @@ public:
             if (tokenType() == t)
             {
                 // TODO: add code to make it add Token to correct list
+                if (name == "" && t == ID) {
+                    name = tokens.at(0).getValue();
+                } else if(name != "" && t == ID) {
+                    parameters.push_back(Parameter(tokens.at(0)));
+                }
                 advanceToken();
             }
             else
@@ -88,6 +100,33 @@ public:
             exit(0);
         }
     }
+
+//    void schemeMatch(TokenType t) {
+//        try
+//        {
+//            if (tokenType() == t)
+//            {
+//                // TODO: add code to make it add Token to correct list
+//                if (name == "") {
+//                    name = tokens.at(0).getValue();
+//                } else if(name != "" && t == ID) {
+//                    parameters.push_back(Parameter(tokens.at(0)));
+//                }
+//                advanceToken();
+//            }
+//            else
+//            {
+//                throw tokens.at(0);
+//            }
+//        }
+//        catch (Token wrongToken)
+//        {
+//            cout << "Failure !" << endl;
+//            cout << "  " << wrongToken.toString();
+//
+//            exit(0);
+//        }
+//    }
 
     void idList()
     {
@@ -126,6 +165,8 @@ public:
             match(ID);
             idList();
             match(RIGHT_PAREN);
+            dp.addScheme(Predicate(name, parameters));
+            clear();
         }
         else
         {
@@ -156,6 +197,8 @@ public:
             stringList();
             match(RIGHT_PAREN);
             match(PERIOD);
+            dp.addFact(Predicate(name, parameters));
+            clear();
         }
         else
         {
@@ -292,6 +335,13 @@ public:
         else
         {
             // lambda
+        }
+    }
+
+    void clear() {
+        name = "";
+        while (!parameters.empty()) {
+            parameters.pop_back();
         }
     }
 };

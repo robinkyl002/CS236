@@ -982,4 +982,8 @@ CMakeFiles/project2.dir/main.cpp.o: \
   /Users/mathd/Documents/School/CS/CS_236/project2/FiniteStateMachines.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/map \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__tree \
-  /Users/mathd/Documents/School/CS/CS_236/project2/Parser.h
+  /Users/mathd/Documents/School/CS/CS_236/project2/Parser.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/DatalogProgram.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Predicate.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Parameter.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Rule.h
