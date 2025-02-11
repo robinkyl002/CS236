@@ -17,15 +17,31 @@ private:
 public:
     Parser(const vector<Token> &tokens) : tokens(tokens) {}
 
-    void parser()
+    void datalogProgram()
     {
-        // Replace this with code that will be executed for parser
-        cout << "Tokens: " << tokens.size();
+        match(SCHEMES);
+        match(COLON);
 
-        for (int i = 0; i < tokens.size(); i++)
-        {
-            cout << tokens.at(i).toString() << endl;
-        }
+        scheme();
+        schemeList();
+
+        match(FACTS);
+        match(COLON);
+
+        factList();
+
+        match(RULES);
+        match(COLON);
+
+        ruleList();
+
+        match(QUERIES);
+        match(COLON);
+
+        query();
+        queryList();
+
+        match(END);
     }
 
     TokenType tokenType() const
@@ -50,15 +66,26 @@ public:
     */
     void match(TokenType t)
     {
-        cout << "match: " << t << endl;
-        if (tokenType() == t)
+        //        cout << "match: " << t << endl;
+
+        try
         {
-            // TODO: add code to make it add Token to correct list
-            advanceToken();
+            if (tokenType() == t)
+            {
+                // TODO: add code to make it add Token to correct list
+                advanceToken();
+            }
+            else
+            {
+                throw tokens.at(0);
+            }
         }
-        else
+        catch (Token wrongToken)
         {
-            throwError();
+            cout << "Failure !" << endl;
+            cout << "  " << wrongToken.toString();
+
+            exit(0);
         }
     }
 
@@ -106,6 +133,19 @@ public:
         }
     }
 
+    void schemeList()
+    {
+        if (tokenType() == ID)
+        {
+            scheme();
+            schemeList();
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
     void fact()
     {
         if (tokenType() == ID)
@@ -116,6 +156,138 @@ public:
             stringList();
             match(RIGHT_PAREN);
             match(PERIOD);
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void factList()
+    {
+        if (tokenType() == ID)
+        {
+            fact();
+            factList();
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void rule()
+    {
+        headPredicate();
+        match(COLON_DASH);
+        predicate();
+        predicateList();
+        match(PERIOD);
+    }
+
+    void ruleList()
+    {
+        if (tokenType() == ID)
+        {
+            rule();
+            ruleList();
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void headPredicate()
+    {
+        match(ID);
+        match(LEFT_PAREN);
+        match(ID);
+        idList();
+        match(RIGHT_PAREN);
+    }
+
+    void query()
+    {
+        if (tokenType() == ID)
+        {
+            predicate();
+            match(Q_MARK);
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void queryList()
+    {
+        if (tokenType() == ID)
+        {
+            query();
+            queryList();
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void predicate()
+    {
+        if (tokenType() == ID)
+        {
+            match(ID);
+            match(LEFT_PAREN);
+            parameter();
+            parameterList();
+            match(RIGHT_PAREN);
+        }
+        else
+        {
+            // lambda
+        }
+    }
+
+    void predicateList()
+    {
+        if (tokenType() == COMMA)
+        {
+            match(COMMA);
+            predicate();
+            predicateList();
+        }
+
+        else
+        {
+            // lambda
+        }
+    }
+
+    void parameterList()
+    {
+        if (tokenType() == COMMA)
+        {
+            match(COMMA);
+            parameter();
+            parameterList();
+        }
+
+        else
+        {
+            // lambda
+        }
+    }
+
+    void parameter()
+    {
+        if (tokenType() == STRING)
+        {
+            match(STRING);
+        }
+        else if (tokenType() == ID)
+        {
+            match(ID);
         }
         else
         {
