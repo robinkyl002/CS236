@@ -28,4 +28,6 @@ int main() {
         cout << tuple.toString(scheme) << endl;
     }
 
+    return 0;
+
 }
