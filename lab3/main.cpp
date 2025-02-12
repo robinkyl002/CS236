@@ -1,6 +1,12 @@
 //
 // Created by Kyle Robinson on 2/12/25.
 //
+#include "Tuple.h"
+#include "Scheme.h"
+
+#include <iostream>
+#include <vector>
+#include <string>
 
 int main() {
 

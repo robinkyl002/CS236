@@ -1,3 +1,6 @@
+#pragma once
+#include "Tuple.h"
+
 #include <vector>
 #include <string>
 
