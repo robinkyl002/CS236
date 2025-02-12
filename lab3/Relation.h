@@ -9,6 +9,8 @@
 #include <string>
 #include <set>
 
+using namespace std;
+
 class Relation {
 
 private:
