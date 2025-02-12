@@ -981,13 +981,23 @@ CMakeFiles/project2.dir/main.cpp.o: /Users/mathd/Documents/School/CS/CS_236/proj
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdarg.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdint.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/DatalogProgram.h \
   /Users/mathd/Documents/School/CS/CS_236/project2/FiniteStateMachines.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Parameter.h \
   /Users/mathd/Documents/School/CS/CS_236/project2/Parser.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Predicate.h \
+  /Users/mathd/Documents/School/CS/CS_236/project2/Rule.h \
   /Users/mathd/Documents/School/CS/CS_236/project2/Scanner.h \
   /Users/mathd/Documents/School/CS/CS_236/project2/Token.h
 
 
 /Users/mathd/Documents/School/CS/CS_236/project2/Scanner.h:
+
+/Users/mathd/Documents/School/CS/CS_236/project2/Rule.h:
+
+/Users/mathd/Documents/School/CS/CS_236/project2/Predicate.h:
+
+/Users/mathd/Documents/School/CS/CS_236/project2/Parameter.h:
 
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdint.h:
 
@@ -2542,6 +2552,8 @@ CMakeFiles/project2.dir/main.cpp.o: /Users/mathd/Documents/School/CS/CS_236/proj
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__format/format_arg.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/_mb_cur_max.h:
+
+/Users/mathd/Documents/School/CS/CS_236/project2/DatalogProgram.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__filesystem/file_status.h:
 

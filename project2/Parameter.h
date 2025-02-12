@@ -7,14 +7,13 @@ using namespace std;
 class Parameter
 {
 private:
-    Token token;
-    string parameterName;
+    string value;
 
 public:
-    Parameter(Token token) : token(token), parameterName(token.getValue()) {}
+    Parameter(string value) : value(value) {}
 
     string toString()
     {
-        return parameterName;
+        return value;
     }
 };

@@ -15,12 +15,15 @@ private:
     vector<Token> tokens;
     string name;
     vector<Parameter> parameters;
-    vector<Parameter> domain;
+    vector<string> domain;
+    Predicate headPredicateHolder;
+    vector<Predicate> predicateListHolder;
     DatalogProgram dp = DatalogProgram();
 
 
 public:
-    Parser(const vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain() {}
+    Parser(const vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain(),
+                                          headPredicateHolder(Predicate(name, parameters)), predicateListHolder() {}
 
     void datalogProgram()
     {
@@ -29,6 +32,7 @@ public:
 
         scheme();
         schemeList();
+        checkSchemesSize();
 
         match(FACTS);
         match(COLON);
@@ -39,12 +43,14 @@ public:
         match(COLON);
 
         ruleList();
+        addDomainToDatalogProgram();
 
         match(QUERIES);
         match(COLON);
 
         query();
         queryList();
+        checkQueriesSize();
 
         match(END);
 
@@ -60,11 +66,6 @@ public:
     {
         tokens.erase(tokens.begin());
     }
-
-//    void throwError()
-//    {
-//        cout << "error" << endl;
-//    }
 
     /*
     checks to see whether TokenType entered matches current token
@@ -82,8 +83,8 @@ public:
                 // TODO: add code to make it add Token to correct list
                 if (name == "" && t == ID) {
                     name = tokens.at(0).getValue();
-                } else if(name != "" && t == ID) {
-                    parameters.push_back(Parameter(tokens.at(0)));
+                } else if(name != "" && (t == ID || t == STRING)) {
+                    parameters.push_back(Parameter(tokens.at(0).getValue()));
                 }
                 advanceToken();
             }
@@ -100,33 +101,6 @@ public:
             exit(0);
         }
     }
-
-//    void schemeMatch(TokenType t) {
-//        try
-//        {
-//            if (tokenType() == t)
-//            {
-//                // TODO: add code to make it add Token to correct list
-//                if (name == "") {
-//                    name = tokens.at(0).getValue();
-//                } else if(name != "" && t == ID) {
-//                    parameters.push_back(Parameter(tokens.at(0)));
-//                }
-//                advanceToken();
-//            }
-//            else
-//            {
-//                throw tokens.at(0);
-//            }
-//        }
-//        catch (Token wrongToken)
-//        {
-//            cout << "Failure !" << endl;
-//            cout << "  " << wrongToken.toString();
-//
-//            exit(0);
-//        }
-//    }
 
     void idList()
     {
@@ -174,6 +148,19 @@ public:
         }
     }
 
+    void checkSchemesSize() {
+        try {
+            if (dp.getSchemes().size() == 0) {
+                throw tokens.at(0);
+            }
+        } catch (Token wrongToken) {
+            cout << "Failure !" << endl;
+            cout << "  " << wrongToken.toString();
+
+            exit(0);
+        }
+    }
+
     void schemeList()
     {
         if (tokenType() == ID)
@@ -197,12 +184,42 @@ public:
             stringList();
             match(RIGHT_PAREN);
             match(PERIOD);
+
+
+            size_t index = 0;
+            for (Parameter param : parameters) {
+                bool found = false;
+                index = 0;
+
+                while (index < domain.size()) {
+                    if (param.toString() == domain[index]) {
+                        found = true;
+                        break;
+                    }
+                    else {
+                        index++;
+                    }
+                }
+                if (!found) {
+                    domain.push_back(param.toString());
+                }
+            }
+
+            sort(domain.begin(), domain.end());
+
+
             dp.addFact(Predicate(name, parameters));
             clear();
         }
         else
         {
             // lambda
+        }
+    }
+
+    void addDomainToDatalogProgram() {
+        for (string item : domain) {
+            dp.addDomainItem(Parameter(item));
         }
     }
 
@@ -224,8 +241,15 @@ public:
         headPredicate();
         match(COLON_DASH);
         predicate();
+        predicateListHolder.push_back(Predicate(name, parameters));
+        clear();
         predicateList();
         match(PERIOD);
+
+        dp.addRule(Rule(headPredicateHolder, predicateListHolder));
+
+        clear();
+        resetPlaceHoldersForRule();
     }
 
     void ruleList()
@@ -248,6 +272,9 @@ public:
         match(ID);
         idList();
         match(RIGHT_PAREN);
+
+        headPredicateHolder = Predicate(name, parameters);
+        clear();
     }
 
     void query()
@@ -256,6 +283,8 @@ public:
         {
             predicate();
             match(Q_MARK);
+            dp.addQuery(Predicate(name, parameters));
+            clear();
         }
         else
         {
@@ -273,6 +302,19 @@ public:
         else
         {
             // lambda
+        }
+    }
+
+    void checkQueriesSize() {
+        try {
+            if (dp.getQueries().size() == 0) {
+                throw tokens.at(0);
+            }
+        } catch (Token wrongToken) {
+            cout << "Failure !" << endl;
+            cout << "  " << wrongToken.toString();
+
+            exit(0);
         }
     }
 
@@ -298,6 +340,8 @@ public:
         {
             match(COMMA);
             predicate();
+            predicateListHolder.push_back(Predicate(name, parameters));
+            clear();
             predicateList();
         }
 
@@ -342,6 +386,13 @@ public:
         name = "";
         while (!parameters.empty()) {
             parameters.pop_back();
+        }
+    }
+
+    void resetPlaceHoldersForRule() {
+        headPredicateHolder = Predicate("", parameters);
+        while (!predicateListHolder.empty()) {
+            predicateListHolder.pop_back();
         }
     }
 };
