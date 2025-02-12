@@ -3,6 +3,7 @@
 //
 #include "Tuple.h"
 #include "Scheme.h"
+#include "Relation.h"
 
 #include <iostream>
 #include <vector>
