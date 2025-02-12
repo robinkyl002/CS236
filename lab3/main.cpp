@@ -17,6 +17,8 @@ int main() {
 
     Scheme scheme(names);
 
+    Relation relation("student", scheme);
+
     vector<string> values[] = {
             {"'42'", "'Ann'", "'CS'"},
             {"'32'", "'Bob'", "'CS'"},
@@ -27,7 +29,16 @@ int main() {
     for (auto& value : values) {
         Tuple tuple(value);
         cout << tuple.toString(scheme) << endl;
+        relation.addTuple(tuple);
     }
+
+    cout << "relation:" << endl;
+    cout << relation.toString();
+
+    Relation result = relation.select(2, "'CS'");
+
+    cout << "select Major='CS' result:" << endl;
+    cout << result.toString();
 
     return 0;
 

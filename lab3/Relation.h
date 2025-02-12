@@ -28,4 +28,25 @@ public:
         tuples.insert(tuple);
     }
 
+    string toString() const {
+        stringstream out;
+        // add code to print the Tuples, one per line
+        for (Tuple tuple : tuples) {
+            out << tuple.toString(scheme);
+            out << endl;
+        }
+        return out.str();
+    }
+
+
+    Relation select(int index, const string& value) const {
+        Relation result(name, scheme);
+        // add tuples to the result if they meet the condition
+        for (Tuple tuple: tuples) {
+            if (value == tuple.at(index)){
+                result.addTuple(tuple);
+            }
+        }
+        return result;
+    }
 };
