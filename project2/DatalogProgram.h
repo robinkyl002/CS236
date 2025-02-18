@@ -12,7 +12,6 @@ using namespace std;
 class DatalogProgram
 {
 private:
-    vector<Token> tokens;
     vector<Predicate> schemes;
     vector<Predicate> facts;
     vector<Rule> rules;
@@ -20,7 +19,7 @@ private:
     vector<Parameter> domain;
 
 public:
-    void datalogProgram() {}
+    DatalogProgram() {}
 
     vector<Predicate> getSchemes()
     {

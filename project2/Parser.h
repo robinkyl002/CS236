@@ -67,6 +67,13 @@ public:
         tokens.erase(tokens.begin());
     }
 
+    void throwError(Token wrongToken) {
+        cout << "Failure!" << endl;
+        cout << "  " << wrongToken.toString();
+
+        exit(0);
+    }
+
     /*
     checks to see whether TokenType entered matches current token
     prints out what token it is trying to match with, then advances token if it matches
@@ -75,15 +82,13 @@ public:
     void match(TokenType t)
     {
         //        cout << "match: " << t << endl;
-
         try
         {
             if (tokenType() == t)
             {
-                // TODO: add code to make it add Token to correct list
-                if (name == "" && t == ID) {
+                if (name.empty() && t == ID) {
                     name = tokens.at(0).getValue();
-                } else if(name != "" && (t == ID || t == STRING)) {
+                } else if(!name.empty() && (t == ID || t == STRING)) {
                     parameters.push_back(Parameter(tokens.at(0).getValue()));
                 }
                 advanceToken();
@@ -95,10 +100,11 @@ public:
         }
         catch (Token wrongToken)
         {
-            cout << "Failure !" << endl;
-            cout << "  " << wrongToken.toString();
-
-            exit(0);
+//            cout << "Failure!" << endl;
+//            cout << "  " << wrongToken.toString();
+//
+//            exit(0);
+            throwError(wrongToken);
         }
     }
 
@@ -154,10 +160,11 @@ public:
                 throw tokens.at(0);
             }
         } catch (Token wrongToken) {
-            cout << "Failure !" << endl;
-            cout << "  " << wrongToken.toString();
-
-            exit(0);
+//            cout << "Failure !" << endl;
+//            cout << "  " << wrongToken.toString();
+//
+//            exit(0);
+            throwError(wrongToken);
         }
     }
 
@@ -311,10 +318,11 @@ public:
                 throw tokens.at(0);
             }
         } catch (Token wrongToken) {
-            cout << "Failure !" << endl;
-            cout << "  " << wrongToken.toString();
-
-            exit(0);
+//            cout << "Failure !" << endl;
+//            cout << "  " << wrongToken.toString();
+//
+//            exit(0);
+            throwError(wrongToken);
         }
     }
 

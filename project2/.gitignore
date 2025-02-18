@@ -1,0 +1,8 @@
+cmake-build-debug
+parser
+CMakeLists.txt
+project2-passoff
+project2.dSYM
+run-tests.sh
+.DS_Store
+.idea
