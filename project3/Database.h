@@ -3,11 +3,19 @@
 //
 
 #pragma once
+#include <map>
 
 #include "Scheme.h"
 #include "Relation.h"
 
 class Database {
+private:
+    map<string, Relation> relations;
+
+public:
+    Database() : relations() {}
+
+
     //    vector<string> names = { "ID", "Name", "Major" };
 //
 //    Scheme scheme(names);
