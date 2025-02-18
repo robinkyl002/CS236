@@ -49,4 +49,13 @@ public:
         }
         return result;
     }
+
+    Relation project() {
+        return Relation(name, scheme);
+    }
+
+    Relation rename(string newName) {
+        name = newName;
+        return Relation(name, scheme);
+    };
 };
