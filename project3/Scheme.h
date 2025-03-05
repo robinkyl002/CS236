@@ -7,9 +7,11 @@
 using namespace std;
 
 class Scheme : public vector<string> {
+private:
+    vector<string> names;
 
 public:
 
-    Scheme(vector<string> names) : vector<string>(names) { }
+    Scheme(vector<string> names) : names(names) { }
 
 };

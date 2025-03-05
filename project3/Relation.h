@@ -39,7 +39,8 @@ public:
     }
 
 
-    Relation select(int index, const string& value) const {
+    // Example: SNAP(X,'pineapple')
+    Relation selectValue(int index, const string& value) const {
         Relation result(name, scheme);
         // add tuples to the result if they meet the condition
         for (Tuple tuple: tuples) {
@@ -50,12 +51,21 @@ public:
         return result;
     }
 
-    Relation project() {
+    // Example SNAP(X,Y)
+    Relation select (int index1, int index2) {
+
+    }
+
+    Relation project(vector<int> indexes) {
+
         return Relation(name, scheme);
     }
 
-    Relation rename(string newName) {
-        name = newName;
+    Relation rename(vector<string> names) {
+        for (int i = 0; i < names.size(); i++) {
+            scheme.at(i) = names.at(i);
+        }
+
         return Relation(name, scheme);
     };
 };

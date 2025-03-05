@@ -5,6 +5,7 @@
 #include "Token.h"
 #include "Scanner.h"
 #include "Parser.h"
+#include "Interpreter.h"
 
 using namespace std;
 
@@ -56,28 +57,9 @@ int main(int argc, char *argv[])
 
     Parser p = Parser(tokens);
 
-    p.datalogProgram();
+    Interpreter interpreter = Interpreter(p.datalogProgram());
+
+    interpreter.print();
 
     return 0;
 }
-
-//
-// Created by Kyle Robinson on 2/12/25.
-//
-//#include "Tuple.h"
-//#include "Scheme.h"
-//#include "Relation.h"
-//
-//#include <iostream>
-//#include <vector>
-//#include <string>
-//
-//using namespace std;
-//
-//int main() {
-//
-
-//
-//    return 0;
-//
-//}

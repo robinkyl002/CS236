@@ -25,7 +25,7 @@ public:
     Parser(const vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain(),
                                           headPredicateHolder(Predicate(name, parameters)), predicateListHolder() {}
 
-    void datalogProgram()
+    DatalogProgram datalogProgram()
     {
         match(SCHEMES);
         match(COLON);
@@ -54,7 +54,8 @@ public:
 
         match(END);
 
-        cout << dp.toString();
+//        cout << dp.toString();
+        return dp;
     }
 
     TokenType tokenType() const

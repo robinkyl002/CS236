@@ -4,3 +4,4 @@ CMakeLists.txt
 run-tests.sh
 .idea
 .DS_Store
+.vscode

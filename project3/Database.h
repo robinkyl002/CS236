@@ -13,9 +13,15 @@ private:
     map<string, Relation> relations;
 
 public:
-    Database() : relations() {}
+    Database() {}
 
+    void addRelation(string name, Relation rel) {
+        relations.at(name) = rel;
+    }
 
+    Relation getRelation(string name) {
+        return relations.at(name);
+    }
     //    vector<string> names = { "ID", "Name", "Major" };
 //
 //    Scheme scheme(names);
