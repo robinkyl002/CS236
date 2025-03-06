@@ -160,10 +160,6 @@ public:
                 throw tokens.at(0);
             }
         } catch (Token wrongToken) {
-//            cout << "Failure !" << endl;
-//            cout << "  " << wrongToken.toString();
-//
-//            exit(0);
             throwError(wrongToken);
         }
     }
@@ -318,10 +314,6 @@ public:
                 throw tokens.at(0);
             }
         } catch (Token wrongToken) {
-//            cout << "Failure !" << endl;
-//            cout << "  " << wrongToken.toString();
-//
-//            exit(0);
             throwError(wrongToken);
         }
     }
