@@ -22,7 +22,7 @@ private:
 
 
 public:
-    Parser(const vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain(),
+    Parser(vector<Token> &tokens) : tokens(tokens), name(""), parameters(), domain(),
                                           headPredicateHolder(Predicate(name, parameters)), predicateListHolder() {}
 
     DatalogProgram datalogProgram()
@@ -58,7 +58,7 @@ public:
         return dp;
     }
 
-    TokenType tokenType() const
+    TokenType tokenType()
     {
         return tokens.at(0).getType();
     }
@@ -75,13 +75,11 @@ public:
     */
     void match(TokenType t)
     {
-        //        cout << "match: " << t << endl;
 
         try
         {
             if (tokenType() == t)
             {
-                // TODO: add code to make it add Token to correct list
                 if (name == "" && t == ID) {
                     name = tokens.at(0).getValue();
                 } else if(name != "" && (t == ID || t == STRING)) {

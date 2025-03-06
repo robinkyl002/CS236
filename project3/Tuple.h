@@ -9,13 +9,12 @@ using namespace std;
 
 class Tuple : public vector<string>
 {
-
 public:
     Tuple(vector<string> values) : vector<string>(values) {}
 
-    string toString(const Scheme &scheme) const
+    string toString(Scheme &scheme)
     {
-        const Tuple &tuple = *this;
+        Tuple &tuple = *this;
         stringstream out;
         for (int i = 0; i < scheme.size(); i++)
         {

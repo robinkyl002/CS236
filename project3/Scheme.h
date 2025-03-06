@@ -1,8 +1,8 @@
 #pragma once
-#include "Tuple.h"
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -13,5 +13,11 @@ private:
 public:
 
     Scheme(vector<string> names) : names(names) { }
+
+    void printScheme() {
+        for (auto& name: names) {
+            cout << name << endl;
+        }
+    }
 
 };

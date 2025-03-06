@@ -24,7 +24,7 @@ private:
     int line = 0;
 
 public:
-    FiniteStateMachines(const string input) : input(input) {}
+    FiniteStateMachines(string input) : input(input) {}
 
     int singleCharacterFSM (char inputChar) {
         if (input.at(0) == inputChar)
@@ -297,12 +297,12 @@ public:
         return type;
     }
 
-    const int getTokenLength()
+    int getTokenLength()
     {
         return tokenLength;
     }
 
-    const int getNewLines()
+    int getNewLines()
     {
         return line;
     }

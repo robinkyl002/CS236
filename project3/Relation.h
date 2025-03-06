@@ -11,40 +11,44 @@
 
 using namespace std;
 
-class Relation {
+class Relation
+{
 
 private:
-
     string name;
     Scheme scheme;
     set<Tuple> tuples;
 
 public:
+    Relation(string &name, Scheme &scheme)
+        : name(name), scheme(scheme) {}
 
-    Relation(const string& name, const Scheme& scheme)
-            : name(name), scheme(scheme) { }
-
-    void addTuple(const Tuple& tuple) {
+    void addTuple(Tuple &tuple)
+    {
         tuples.insert(tuple);
     }
 
-    string toString() const {
+    string toString()
+    {
         stringstream out;
         // add code to print the Tuples, one per line
-        for (Tuple tuple : tuples) {
+        for (Tuple tuple : tuples)
+        {
             out << tuple.toString(scheme);
             out << endl;
         }
         return out.str();
     }
 
-
     // Example: SNAP(X,'pineapple')
-    Relation selectValue(int index, const string& value) const {
+    Relation selectValue(int index, string &value)
+    {
         Relation result(name, scheme);
         // add tuples to the result if they meet the condition
-        for (Tuple tuple: tuples) {
-            if (value == tuple.at(index)){
+        for (Tuple tuple : tuples)
+        {
+            if (value == tuple.at(index))
+            {
                 result.addTuple(tuple);
             }
         }
@@ -52,17 +56,20 @@ public:
     }
 
     // Example SNAP(X,Y)
-    Relation select (int index1, int index2) {
-
+    Relation select(int index1, int index2)
+    {
     }
 
-    Relation project(vector<int> indexes) {
+    Relation project(vector<int> indexes)
+    {
 
         return Relation(name, scheme);
     }
 
-    Relation rename(vector<string> names) {
-        for (int i = 0; i < names.size(); i++) {
+    Relation rename(vector<string> names)
+    {
+        for (int i = 0; i < names.size(); i++)
+        {
             scheme.at(i) = names.at(i);
         }
 

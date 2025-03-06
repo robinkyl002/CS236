@@ -37,14 +37,14 @@ private:
 public:
     Token(TokenType type, string value, int line) : type(type), value(value), line(line) {}
 
-    string toString() const
+    string toString()
     {
         stringstream out;
         out << "(" << typeName(type) << "," << "\"" << value << "\"" << "," << line << ")";
         return out.str();
     }
 
-    string typeName(TokenType type) const
+    string typeName(TokenType type)
     {
         switch (type)
         {
@@ -87,12 +87,12 @@ public:
         }
     }
 
-    TokenType getType() const
+    TokenType getType()
     {
         return type;
     }
 
-    string getValue() const
+    string getValue()
     {
         return value;
     }
