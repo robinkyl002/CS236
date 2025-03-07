@@ -17,7 +17,7 @@ private:
     vector<Token> allTokens;
 
 public:
-    Scanner(string &input) : input(input)
+    Scanner(const string &input) : input(input)
     {
         line = 1;
     }

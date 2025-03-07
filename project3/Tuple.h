@@ -9,6 +9,9 @@ using namespace std;
 
 class Tuple : public vector<string>
 {
+//private:
+//    vector<string> values;
+
 public:
     Tuple(vector<string> values) : vector<string>(values) {}
 

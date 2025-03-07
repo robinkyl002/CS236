@@ -13,40 +13,46 @@ int main(int argc, char *argv[])
 {
     vector<Token> tokens;
 
-    ifstream in;
-    in.open(argv[1]);
-    stringstream ss;
-    ss << in.rdbuf();
-    string input = ss.str();
-    in.close();
+//    ifstream in;
+//    in.open(argv[1]);
+//    stringstream ss;
+//    ss << in.rdbuf();
+//    string input = ss.str();
+//    in.close();
+//
+//    Scanner s = Scanner(input);
 
-    Scanner s = Scanner(input);
-
-//        Scanner s = Scanner("\n"
-//                            "\n"
-//                            "# small test with no syntax errors\n"
-//                            "\n"
-//                            "\n"
-//                            "Schemes:\n"
-//                            "\n"
-//                            "  married(x,y)\n"
-//                            "  child(x,y)\n"
-//                            "\n"
-//                            "Facts:\n"
-//                            "\n"
-//                            "  married('Jim', 'Bea').\n"
-//                            "  child('Ned', 'Bea').\n"
-//                            "\n"
-//                            "Rules:\n"
-//                            "\n"
-//                            "  married(y,x) :- married(x,y).\n"
-//                            "  child(x,z) :- child(x,y), married(y,z).\n"
-//                            "\n"
-//                            "Queries:\n"
-//                            "\n"
-//                            "  child('Ned', 'Jim')?\n"
-//                            "\n"
-//                            "");
+        Scanner s = Scanner("\n"
+                            "\n"
+                            "# single params, only constants\n"
+                            "\n"
+                            "\n"
+                            "Schemes:\n"
+                            "\n"
+                            "A(X)\n"
+                            "B(Y)\n"
+                            "C(Z)\n"
+                            "\n"
+                            "Facts:\n"
+                            "\n"
+                            "A('1').\n"
+                            "A('2').\n"
+                            "\n"
+                            "B('2').\n"
+                            "B('3').\n"
+                            "\n"
+                            "C('').\n"
+                            "C('4').\n"
+                            "\n"
+                            "Rules:\n"
+                            "\n"
+                            "Queries:\n"
+                            "\n"
+                            "A('2')?\n"
+                            "B('4')?\n"
+                            "C('')?\n"
+                            "\n"
+                            "");
 
     tokens = s.scanAllTokens();
 
@@ -59,7 +65,9 @@ int main(int argc, char *argv[])
 
     Interpreter interpreter = Interpreter(p.datalogProgram());
 
-    interpreter.print();
+//    interpreter.print();
+
+    interpreter.interpret();
 
     return 0;
 }

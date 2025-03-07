@@ -28,6 +28,14 @@ public:
         tuples.insert(tuple);
     }
 
+    string getName() {
+        return name;
+    }
+
+    Scheme getScheme() {
+        return scheme;
+    }
+
     string toString()
     {
         stringstream out;

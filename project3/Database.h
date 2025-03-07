@@ -16,10 +16,10 @@ public:
     Database() {}
 
     void addRelation(string name, Relation rel) {
-        relations.at(name) = rel;
+        relations.insert({name, rel});
     }
 
-    Relation getRelation(string name) {
+    Relation& getRelation(string name) {
         return relations.at(name);
     }
     //    vector<string> names = { "ID", "Name", "Major" };

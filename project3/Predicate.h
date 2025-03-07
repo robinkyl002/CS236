@@ -37,4 +37,12 @@ public:
         }
         return predicate;
     }
+
+    string getPredicateName() {
+        return name;
+    }
+
+    vector<Parameter> getParameters() {
+        return parameters;
+    }
 };
