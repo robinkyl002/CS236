@@ -85,14 +85,37 @@ public:
 
     Relation project(vector<int> indexes)
     {
+        vector<string> newScheme;
 
-        return Relation(name, scheme);
+        for (int i = 0; i < indexes.size(); i++) {
+            newScheme.push_back(scheme.at(i));
+        }
+
+        Scheme updated = Scheme(newScheme);
+
+        Relation result = Relation(name, updated);
+
+        for (Tuple tup : tuples) {
+            vector<string> newTuple;
+            for (int i = 0; i < indexes.size(); i++) {
+                newTuple.push_back(tup.at(i));
+            }
+            Tuple updated = Tuple(newTuple);
+            result.addTuple(updated);
+        }
+
+        return result;
     }
 
     Relation rename(vector<string> names)
     {
         Scheme newScheme = Scheme(names);
+        Relation result = Relation(name, newScheme);
 
-        return Relation(name, newScheme);
+        for (Tuple tup : tuples) {
+            result.addTuple(tup);
+        }
+        
+        return result;
     };
 };
