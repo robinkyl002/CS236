@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ public:
     void interpret() {
         evaluateSchemes();
         evaluateFacts();
-
+        evaluateQueries();
     }
 
     void evaluateSchemes() {
@@ -42,12 +43,7 @@ public:
             string schemeName = datalogScheme.getPredicateName();
             vector<Parameter> schemeParams = datalogScheme.getParameters();
 
-//            cout << "Scheme name: \n" << schemeName << endl;
-//            int count = 0;
             for (Parameter param: schemeParams) {
-//                count++;
-//                cout << "Parameter #" << count << ": \n" << param.toString() << endl;
-
                 attributes.push_back(param.toString());
             }
             Scheme newScheme = Scheme(attributes);
@@ -77,15 +73,50 @@ public:
 //            }
 
             Tuple tuple = Tuple(values);
-            Scheme sch = database.getRelation(factName).getScheme();
+//            Scheme sch = database.getRelation(factName).getScheme();
 
 //            sch.printScheme();
-            cout << "Tuple size: " << tuple.size() << endl;
-            cout << tuple.toString(sch) << endl;
+//            cout << "Tuple size: " << tuple.size() << endl;
+//            cout << tuple.toString(sch) << endl;
 
             database.getRelation(factName).addTuple(tuple);
 
-            cout << database.getRelation(factName).toString() << endl;
+//            cout << database.getRelation(factName).toString() << endl;
+        }
+    }
+
+    void evaluateQueries() {
+        vector<Predicate> datalogQueries = dp.getQueries();
+        string name;
+        vector<string> attributes;
+        vector<Parameter> queryParams;
+
+        for (Predicate datalogQuery: datalogQueries) {
+            cout << datalogQuery.toString() << "?" << endl;
+            name = datalogQuery.getPredicateName();
+            queryParams = datalogQuery.getParameters();
+
+            Relation result = database.getRelation(name);
+
+            for (int i = 0; i < queryParams.size(); i++) {
+//                attributes.push_back(param.toString());
+                string attribute = queryParams.at(i).toString();
+                if (attribute.at(0) == '\'') {
+//                    database.getRelation(name).selectValue(i, attribute);
+                    result = result.selectValue(i, attribute);
+                } else {
+                    for (int j = i + 1; j < queryParams.size(); j++) {
+                        if (attribute == queryParams.at(j).toString()) {
+                            result = result.select(i, j);
+                        }
+                    }
+//                    database.getRelation(name).select(i, i+ 1);
+                }
+            }
+            if (!result.getTuples().empty()) {
+
+            }
+//            database.getRelation(name).
         }
     }
 };

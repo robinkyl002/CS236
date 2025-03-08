@@ -36,6 +36,10 @@ public:
         return scheme;
     }
 
+    set<Tuple> getTuples() {
+        return tuples;
+    }
+
     string toString()
     {
         stringstream out;
@@ -49,6 +53,7 @@ public:
     }
 
     // Example: SNAP(X,'pineapple')
+    // returns relation
     Relation selectValue(int index, string &value)
     {
         Relation result(name, scheme);
@@ -60,12 +65,22 @@ public:
                 result.addTuple(tuple);
             }
         }
+        cout << "selectValue at index " << index << " using value " << value << endl;
         return result;
     }
 
-    // Example SNAP(X,Y)
+    // Example - SNAP(X,X)
+    // Returns relation
     Relation select(int index1, int index2)
     {
+        Relation result = Relation(name, scheme);
+
+        for (Tuple tup : tuples) {
+            if (tup.at(index1) == tup.at(index2)) {
+                result.addTuple(tup);
+            }
+        }
+        return result;
     }
 
     Relation project(vector<int> indexes)
@@ -76,11 +91,8 @@ public:
 
     Relation rename(vector<string> names)
     {
-        for (int i = 0; i < names.size(); i++)
-        {
-            scheme.at(i) = names.at(i);
-        }
+        Scheme newScheme = Scheme(names);
 
-        return Relation(name, scheme);
+        return Relation(name, newScheme);
     };
 };
