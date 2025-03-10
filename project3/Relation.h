@@ -65,7 +65,7 @@ public:
                 result.addTuple(tuple);
             }
         }
-        cout << "selectValue at index " << index << " using value " << value << endl;
+//        cout << "selectValue at index " << index << " using value " << value << endl;
         return result;
     }
 
@@ -115,7 +115,7 @@ public:
         for (Tuple tup : tuples) {
             result.addTuple(tup);
         }
-        
+
         return result;
     };
 };
