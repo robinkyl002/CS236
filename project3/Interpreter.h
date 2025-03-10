@@ -105,6 +105,7 @@ public:
                 string attribute = queryParams.at(i).toString();
                 if (attribute.at(0) == '\'') {
                     result = result.selectValue(i, attribute);
+//                    variables.push_back(i);
                 } else {
                     bool matches = false;
                     for (int j = i + 1; j < queryParams.size(); j++) {
@@ -130,11 +131,8 @@ public:
                 result = result.project(variables);
             }
 
-//            cout << result.toString() << endl;
-
             // Rename Operations
             result = result.rename(updatedScheme);
-//            cout << result.toString() << endl;
 
             // Evaluation
             if (result.getTuples().empty()) {

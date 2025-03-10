@@ -88,7 +88,7 @@ public:
         vector<string> newScheme;
 
         for (int i = 0; i < indexes.size(); i++) {
-            newScheme.push_back(scheme.at(i));
+            newScheme.push_back(scheme.at(indexes.at(i)));
         }
 
         Scheme updated = Scheme(newScheme);
@@ -98,7 +98,7 @@ public:
         for (Tuple tup : tuples) {
             vector<string> newTuple;
             for (int i = 0; i < indexes.size(); i++) {
-                newTuple.push_back(tup.at(i));
+                newTuple.push_back(tup.at(indexes.at(i)));
             }
             Tuple updated = Tuple(newTuple);
             result.addTuple(updated);
