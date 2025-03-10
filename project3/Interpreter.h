@@ -126,7 +126,10 @@ public:
             }
 
             // Project Operations
-            result = result.project(variables);
+            if (!variables.empty()) {
+                result = result.project(variables);
+            }
+
 //            cout << result.toString() << endl;
 
             // Rename Operations
@@ -134,6 +137,13 @@ public:
 //            cout << result.toString() << endl;
 
             // Evaluation
+            if (result.getTuples().empty()) {
+                cout << "No" << endl;
+            } else {
+                cout << "Yes(" << result.getTuples().size() << ")" << endl;
+
+                cout << result.toString() << endl;
+            }
 
         }
     }
