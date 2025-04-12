@@ -10,6 +10,7 @@
 #include "Relation.h"
 #include "Parameter.h"
 #include "Predicate.h"
+#include "Rule.h"
 
 #include <string>
 #include <vector>
@@ -26,6 +27,8 @@ private:
 public:
     Interpreter(DatalogProgram dp) : dp(dp) {}
 
+//    studentRelation.join(courseRelation);
+
     void print() {
         cout << dp.toString() << endl;
     }
@@ -33,6 +36,7 @@ public:
     void interpret() {
         evaluateSchemes();
         evaluateFacts();
+        evaluateRules();
         evaluateQueries();
     }
 
@@ -49,8 +53,6 @@ public:
             Scheme newScheme = Scheme(attributes);
             Relation newRel = Relation(schemeName, newScheme);
 
-//            cout << newRel.getName() << endl;
-//            newRel.getScheme().printScheme();
             database.addRelation(schemeName, newRel);
         }
     }
@@ -64,85 +66,254 @@ public:
             vector<Parameter> factParams = datalogFact.getParameters();
 
             for (Parameter param : factParams) {
-//                cout << "Parameter: " << param.toString() << endl;
                 values.push_back(param.toString());
             }
 
-//            for (int i = 0; i < values.size(); i++) {
-//                cout << "value at " << i << ": " << values.at(i) << endl;
-//            }
-
             Tuple tuple = Tuple(values);
-//            Scheme sch = database.getRelation(factName).getScheme();
-
-//            sch.printScheme();
-//            cout << "Tuple size: " << tuple.size() << endl;
-//            cout << tuple.toString(sch) << endl;
 
             database.getRelation(factName).addTuple(tuple);
-
-//            cout << database.getRelation(factName).toString() << endl;
         }
     }
 
-    void evaluateQueries() {
-        vector<Predicate> datalogQueries = dp.getQueries();
-        string name;
-        vector<int> variables;
-        vector<Parameter> queryParams;
-        vector<string> updatedScheme;
+    void evaluateRules() {
+        cout << "Rule Evaluation" << endl;
 
-        for (Predicate datalogQuery: datalogQueries) {
-            variables.clear();
-            updatedScheme.clear();
-            cout << datalogQuery.toString() << "? ";
-            name = datalogQuery.getPredicateName();
-            queryParams = datalogQuery.getParameters();
+        int passes = 0;
+        bool changes = true;
 
-            Relation result = database.getRelation(name);
-            // Select operations
-            for (int i = 0; i < queryParams.size(); i++) {
-                string attribute = queryParams.at(i).toString();
-                if (attribute.at(0) == '\'') {
-                    result = result.selectValue(i, attribute);
-//                    variables.push_back(i);
-                } else {
-                    bool matches = false;
-                    for (int j = i + 1; j < queryParams.size(); j++) {
-                        if (attribute == queryParams.at(j).toString()) {
-                            result = result.select(i, j);
-                        }
-                    }
-                    for (int k = variables.size() - 1; k >= 0; k--) {
-                        if(attribute == queryParams.at(variables.at(k)).toString()) {
-                            matches = true;
+        vector<Rule> rules = dp.getRules();
+        while (changes) {
+            passes++;
+            int size = 0;
+            changes = false;
+            for (Rule dpRule : rules) {
+                cout << dpRule.toString() << "." << endl;
+                string name;
+//                vector<int> variables;
+//                vector<Parameter> ruleParams;
+//                vector<string> updatedScheme;
+
+                vector<Relation> bodyRels;
+                vector<Predicate> intermediateRules = dpRule.getPredicateList();
+
+                for (Predicate intRule : intermediateRules) {
+//                    variables.clear();
+//                    updatedScheme.clear();
+//                    cout << intRule.toString() << "? ";
+
+                    Relation r = evalPredicates(intRule);
+                    bodyRels.push_back(r);
+
+//                    name = intRule.getPredicateName();
+//                    ruleParams = intRule.getParameters();
+
+//                    Relation result = database.getRelation(name);
+//
+//                    size = result.getTuples().size();
+//                    // Select operations
+//                    for (int i = 0; i < ruleParams.size(); i++) {
+//                        string attribute = ruleParams.at(i).toString();
+//                        if (attribute.at(0) == '\'') {
+//                            result = result.selectValue(i, attribute);
+//                            if (result.getTuples().size() > size) {
+//                                changes = true;
+//                            }
+////                    variables.push_back(i);
+//                        } else {
+//                            bool matches = false;
+//                            for (int j = i + 1; j < ruleParams.size(); j++) {
+//                                if (attribute == ruleParams.at(j).toString()) {
+//                                    result = result.select(i, j);
+//                                }
+//                            }
+//                            for (int k = variables.size() - 1; k >= 0; k--) {
+//                                if(attribute == ruleParams.at(variables.at(k)).toString()) {
+//                                    matches = true;
+//                                    break;
+//                                }
+//                            }
+//                            if (matches == false) {
+//                                variables.push_back(i);
+//                                updatedScheme.push_back(ruleParams.at(i).toString());
+//                            }
+//                        }
+//                    }
+//
+//                    // Project Operations
+//                    if (!variables.empty()) {
+//                        result = result.project(variables);
+//                    }
+//
+//                    // Rename Operations
+//                    result = result.rename(updatedScheme);
+//
+                }
+
+                Relation joinedRelation = bodyRels.at(0);
+                for (int i = 0; i < bodyRels.size(); i++) {
+                    joinedRelation = joinedRelation.join(bodyRels.at(i));
+                }
+
+                Predicate head = dpRule.getHeadPredicate();
+
+                vector<int> indexes;
+                Scheme updatedScheme = joinedRelation.getScheme();
+                vector<Parameter> headParams = head.getParameters();
+
+                for (int i = 0; i < headParams.size(); i++) {
+                    string name = headParams.at(i).toString();
+                    for (int k = 0; k < updatedScheme.size(); k++) {
+                        if (updatedScheme.at(k) == name) {
+                            indexes.push_back(k);
                             break;
                         }
                     }
-                    if (matches == false) {
-                        variables.push_back(i);
-                        updatedScheme.push_back(queryParams.at(i).toString());
-                    }
+                }
+
+                Relation projectedRelation = joinedRelation.project(indexes);
+                vector<string> newNames;
+
+                for (int j = 0; j < headParams.size(); j++) {
+                    newNames.push_back(headParams.at(j).toString());
+                }
+
+                projectedRelation = projectedRelation.rename(newNames);
+
+                string headName = head.getPredicateName();
+                Relation& target = database.getRelation(headName);
+
+                bool added = target.unionFunction(projectedRelation);
+
+                if(added) {
+                    changes = true;
                 }
             }
+        }
 
-            // Project Operations
-            if (!variables.empty()) {
-                result = result.project(variables);
-            }
+        cout << endl;
 
-            // Rename Operations
-            result = result.rename(updatedScheme);
+//        cout << "Tuple Count: " << database.getTupleCount() << endl;
 
-            // Evaluation
+        cout << "Schemes populated after " << passes << " passes through the Rules.\n" << endl;
+    }
+
+    void evaluateQueries() {
+        cout << "Query Evaluation" << endl;
+
+//        vector<Predicate> datalogQueries = dp.getQueries();
+//        string name;
+//        vector<int> variables;
+//        vector<Parameter> queryParams;
+//        vector<string> updatedScheme;
+
+        for (Predicate datalogQuery: dp.getQueries()) {
+            cout << datalogQuery.toString() << "? ";
+
+            Relation result = evalPredicates(datalogQuery);
+//            variables.clear();
+//            updatedScheme.clear();
+//            cout << datalogQuery.toString() << "? ";
+//            name = datalogQuery.getPredicateName();
+//            queryParams = datalogQuery.getParameters();
+//
+////            Relation result = database.getRelation(name);
+//            // Select operations
+//            for (int i = 0; i < queryParams.size(); i++) {
+//                string attribute = queryParams.at(i).toString();
+//                if (attribute.at(0) == '\'') {
+//                    result = result.selectValue(i, attribute);
+////                    variables.push_back(i);
+//                } else {
+//                    bool matches = false;
+//                    for (int j = i + 1; j < queryParams.size(); j++) {
+//                        if (attribute == queryParams.at(j).toString()) {
+//                            result = result.select(i, j);
+//                        }
+//                    }
+//                    for (int k = variables.size() - 1; k >= 0; k--) {
+//                        if(attribute == queryParams.at(variables.at(k)).toString()) {
+//                            matches = true;
+//                            break;
+//                        }
+//                    }
+//                    if (matches == false) {
+//                        variables.push_back(i);
+//                        updatedScheme.push_back(queryParams.at(i).toString());
+//                    }
+//                }
+//            }
+//
+//            // Project Operations
+//            if (!variables.empty()) {
+//                result = result.project(variables);
+//            }
+//
+//            // Rename Operations
+//            result = result.rename(updatedScheme);
+//
+//            // Evaluation
             if (result.getTuples().empty()) {
                 cout << "No" << endl;
             } else {
                 cout << "Yes(" << result.getTuples().size() << ")" << endl;
 
-                cout << result.toString() << endl;
+                if(!result.getScheme().empty()) {
+                    Scheme relScheme = result.getScheme();
+                    for (Tuple tup : result.getTuples()) {
+                        cout << "  " << tup.toString(relScheme) << endl;
+                    }
+                }
+//                cout << result.toString() << endl;
             }
 
         }
+    }
+
+    Relation evalPredicates(Predicate predicate) {
+        Relation relation = database.getRelation(predicate.getPredicateName());
+        vector<int> variables;
+        vector<string> updatedScheme;
+        // variables.clear();
+        // updatedScheme.clear();
+        string name = predicate.getPredicateName();
+        vector<Parameter> params = predicate.getParameters();
+
+        Relation result = database.getRelation(name);
+        // Select operations
+        for (int i = 0; i < params.size(); i++) {
+            string attribute = params.at(i).toString();
+            if (attribute.at(0) == '\'') {
+                result = result.selectValue(i, attribute);
+//                    variables.push_back(i);
+            } else {
+                bool matches = false;
+                for (int j = i + 1; j < params.size(); j++) {
+                    if (attribute == params.at(j).toString()) {
+                        result = result.select(i, j);
+                    }
+                }
+                for (int k = variables.size() - 1; k >= 0; k--) {
+                    if(attribute == params.at(variables.at(k)).toString()) {
+                        matches = true;
+                        break;
+                    }
+                }
+                if (matches == false) {
+                    variables.push_back(i);
+                    updatedScheme.push_back(params.at(i).toString());
+                }
+            }
+        }
+
+        // Project Operations
+        if (!variables.empty()) {
+            result = result.project(variables);
+        }
+
+        // Rename Operations
+        result = result.rename(updatedScheme);
+
+        return result;
+
     }
 };

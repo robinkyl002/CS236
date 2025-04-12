@@ -153,16 +153,67 @@ public:
 //        Relation result;
         // add code to complete the join operation
 
-        for (Tuple leftTuple : tuples) {
-            cout << "left tuple: " << leftTuple.toString(scheme) << endl;
+        Scheme updatedScheme = joinSchemes(right, left);
 
-            for (Tuple rightTuple : right.tuples) {
-                Scheme rightScheme = right.getScheme();
+        set<Tuple> newTuples = joinTuples(right, left);
 
-                cout << "right tuple: " << rightTuple.toString(rightScheme) << endl;
+        Relation result = Relation(name, updatedScheme);
+
+        for (Tuple newTup : newTuples) {
+            result.addTuple(newTup);
+        }
+
+        return result;
+    }
+
+    Scheme joinSchemes(Relation& right, Relation& left) {
+        Scheme leftScheme = left.getScheme();
+        Scheme rightScheme = right.getScheme();
+        Scheme updatedScheme = leftScheme;
+
+        for (auto i : rightScheme) {
+            if(find(leftScheme.begin(), leftScheme.end(), i) == leftScheme.end()) {
+                updatedScheme.push_back(i);
             }
         }
 
-        return Relation(name, scheme);
+        return updatedScheme;
+    }
+
+    set<Tuple> joinTuples(Relation& right, Relation& left) {
+        set<Tuple> newTupleSet;
+        Scheme leftScheme = left.getScheme();
+        Scheme rightScheme = right.getScheme();
+
+        for (Tuple lTup : left.tuples) {
+            for (Tuple rTup: right.tuples) {
+                if (joinable(leftScheme, rightScheme, lTup, rTup)) {
+                    Tuple newTuple = lTup;
+
+                    for (int i = 0; i < rightScheme.size(); i++) {
+                        if (find(leftScheme.begin(), leftScheme.end(), rightScheme.at(i)) == leftScheme.end()) {
+                            newTuple.push_back(rTup.at(i));
+                        }
+                    }
+
+                    newTupleSet.insert(newTuple);
+                }
+            }
+        }
+
+        return newTupleSet;
+    }
+
+    bool unionFunction(Relation& rel) {
+        bool added = false;
+
+        for (Tuple tup : rel.getTuples()) {
+            if (tuples.find(tup) == tuples.end()) {
+                tuples.insert(tup);
+                added = true;
+                cout << "  " << tup.toString(scheme) << endl;
+            }
+        }
+        return added;
     }
 };

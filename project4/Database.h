@@ -22,6 +22,16 @@ public:
     Relation& getRelation(string name) {
         return relations.at(name);
     }
+
+    int getTupleCount() {
+        int count = 0;
+
+        for (auto& pair : relations) {
+            count += pair.second.getTuples().size();
+        }
+
+        return count;
+    }
     //    vector<string> names = { "ID", "Name", "Major" };
 //
 //    Scheme scheme(names);

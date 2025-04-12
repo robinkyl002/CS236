@@ -36,4 +36,8 @@ public:
     vector<Predicate> getPredicateList() {
         return predicateList;
     }
+
+    Predicate getHeadPredicate() {
+        return headPredicate;
+    }
 };
