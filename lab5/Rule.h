@@ -12,6 +12,8 @@ private:
 public:
     Rule(Predicate headPredicate, vector<Predicate> predicateList) : headPredicate(headPredicate), predicateList(predicateList) {}
 
+    Rule(Predicate headPredicate) : headPredicate(headPredicate), predicateList() {}
+
     string toString()
     {
         string rule;
@@ -31,6 +33,10 @@ public:
 
     void addPredicateToRule(Predicate listItem) {
         predicateList.push_back(listItem);
+    }
+
+    void addBodyPredicate(Predicate body) {
+        predicateList.push_back(body);
     }
 
     vector<Predicate> getPredicateList() {

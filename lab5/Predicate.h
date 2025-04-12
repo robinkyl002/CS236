@@ -16,6 +16,8 @@ private:
 public:
     Predicate(string name, vector<Parameter> parameters) : name(name), parameters(parameters) {}
 
+    Predicate(string name) : name(name), parameters() {}
+
     string toString()
     {
         string predicate;
@@ -34,6 +36,10 @@ public:
             {
                 predicate += ")";
             }
+        }
+
+        if (parameters.empty()) {
+            predicate += ")";
         }
         return predicate;
     }

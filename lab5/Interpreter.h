@@ -11,6 +11,7 @@
 #include "Parameter.h"
 #include "Predicate.h"
 #include "Rule.h"
+#include "Graph.h"
 
 #include <string>
 #include <vector>
@@ -26,8 +27,6 @@ private:
 
 public:
     Interpreter(DatalogProgram dp) : dp(dp) {}
-
-//    studentRelation.join(courseRelation);
 
     void print() {
         cout << dp.toString() << endl;
@@ -89,64 +88,13 @@ public:
             for (Rule dpRule : rules) {
                 cout << dpRule.toString() << "." << endl;
                 string name;
-//                vector<int> variables;
-//                vector<Parameter> ruleParams;
-//                vector<string> updatedScheme;
 
                 vector<Relation> bodyRels;
                 vector<Predicate> intermediateRules = dpRule.getPredicateList();
 
                 for (Predicate intRule : intermediateRules) {
-//                    variables.clear();
-//                    updatedScheme.clear();
-//                    cout << intRule.toString() << "? ";
-
                     Relation r = evalPredicates(intRule);
                     bodyRels.push_back(r);
-
-//                    name = intRule.getPredicateName();
-//                    ruleParams = intRule.getParameters();
-
-//                    Relation result = database.getRelation(name);
-//
-//                    size = result.getTuples().size();
-//                    // Select operations
-//                    for (int i = 0; i < ruleParams.size(); i++) {
-//                        string attribute = ruleParams.at(i).toString();
-//                        if (attribute.at(0) == '\'') {
-//                            result = result.selectValue(i, attribute);
-//                            if (result.getTuples().size() > size) {
-//                                changes = true;
-//                            }
-////                    variables.push_back(i);
-//                        } else {
-//                            bool matches = false;
-//                            for (int j = i + 1; j < ruleParams.size(); j++) {
-//                                if (attribute == ruleParams.at(j).toString()) {
-//                                    result = result.select(i, j);
-//                                }
-//                            }
-//                            for (int k = variables.size() - 1; k >= 0; k--) {
-//                                if(attribute == ruleParams.at(variables.at(k)).toString()) {
-//                                    matches = true;
-//                                    break;
-//                                }
-//                            }
-//                            if (matches == false) {
-//                                variables.push_back(i);
-//                                updatedScheme.push_back(ruleParams.at(i).toString());
-//                            }
-//                        }
-//                    }
-//
-//                    // Project Operations
-//                    if (!variables.empty()) {
-//                        result = result.project(variables);
-//                    }
-//
-//                    // Rename Operations
-//                    result = result.rename(updatedScheme);
-//
                 }
 
                 Relation joinedRelation = bodyRels.at(0);
@@ -191,67 +139,48 @@ public:
         }
 
         cout << endl;
-
-//        cout << "Tuple Count: " << database.getTupleCount() << endl;
-
         cout << "Schemes populated after " << passes << " passes through the Rules.\n" << endl;
+    }
+
+    static Graph makeGraph(const vector<Rule>& rules) {
+
+        Graph graph(rules.size());
+        // add code to add edges to the graph for the rule dependencies
+        int fromIndex = 0;
+        int toIndex = 0;
+        for (Rule rule : rules) {
+//            cout << "from rule R" << fromIndex << ": " << rule.toString() << endl;
+
+            for (Predicate& pred : rule.getPredicateList()) {
+//                cout << "from body predicate: " << pred.toString() << endl;
+                toIndex = 0;
+                for (Rule toRule : rules) {
+//                    cout << "to rule R" << toIndex << ": " << toRule.toString() << endl;
+
+                    if (pred.getPredicateName() == toRule.getHeadPredicate().getPredicateName()) {
+                        graph.addEdge(fromIndex, toIndex);
+
+//                        cout << "dependency found: (R" << fromIndex << ",R" << toIndex << ")" << endl;
+                    }
+
+                    toIndex++;
+                }
+            }
+
+            fromIndex++;
+
+        }
+        return graph;
+
     }
 
     void evaluateQueries() {
         cout << "Query Evaluation" << endl;
 
-//        vector<Predicate> datalogQueries = dp.getQueries();
-//        string name;
-//        vector<int> variables;
-//        vector<Parameter> queryParams;
-//        vector<string> updatedScheme;
-
         for (Predicate datalogQuery: dp.getQueries()) {
             cout << datalogQuery.toString() << "? ";
 
             Relation result = evalPredicates(datalogQuery);
-//            variables.clear();
-//            updatedScheme.clear();
-//            cout << datalogQuery.toString() << "? ";
-//            name = datalogQuery.getPredicateName();
-//            queryParams = datalogQuery.getParameters();
-//
-////            Relation result = database.getRelation(name);
-//            // Select operations
-//            for (int i = 0; i < queryParams.size(); i++) {
-//                string attribute = queryParams.at(i).toString();
-//                if (attribute.at(0) == '\'') {
-//                    result = result.selectValue(i, attribute);
-////                    variables.push_back(i);
-//                } else {
-//                    bool matches = false;
-//                    for (int j = i + 1; j < queryParams.size(); j++) {
-//                        if (attribute == queryParams.at(j).toString()) {
-//                            result = result.select(i, j);
-//                        }
-//                    }
-//                    for (int k = variables.size() - 1; k >= 0; k--) {
-//                        if(attribute == queryParams.at(variables.at(k)).toString()) {
-//                            matches = true;
-//                            break;
-//                        }
-//                    }
-//                    if (matches == false) {
-//                        variables.push_back(i);
-//                        updatedScheme.push_back(queryParams.at(i).toString());
-//                    }
-//                }
-//            }
-//
-//            // Project Operations
-//            if (!variables.empty()) {
-//                result = result.project(variables);
-//            }
-//
-//            // Rename Operations
-//            result = result.rename(updatedScheme);
-//
-//            // Evaluation
             if (result.getTuples().empty()) {
                 cout << "No" << endl;
             } else {
@@ -263,7 +192,6 @@ public:
                         cout << "  " << tup.toString(relScheme) << endl;
                     }
                 }
-//                cout << result.toString() << endl;
             }
 
         }
@@ -273,8 +201,6 @@ public:
         Relation relation = database.getRelation(predicate.getPredicateName());
         vector<int> variables;
         vector<string> updatedScheme;
-        // variables.clear();
-        // updatedScheme.clear();
         string name = predicate.getPredicateName();
         vector<Parameter> params = predicate.getParameters();
 
