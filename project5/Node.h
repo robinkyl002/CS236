@@ -21,6 +21,10 @@ public:
         adjacentNodeIDs.insert(adjacentNodeID);
     }
 
+    set<int> getAdjacentNodeIDs () {
+        return adjacentNodeIDs;
+    }
+
     string toString() {
         stringstream out;
 

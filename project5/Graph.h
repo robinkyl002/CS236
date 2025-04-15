@@ -6,6 +6,8 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <stack>
+#include <set>
 
 #include "Node.h"
 
@@ -26,6 +28,52 @@ public:
 
     void addEdge(int fromNodeID, int toNodeID) {
         nodes[fromNodeID].addEdge(toNodeID);
+    }
+
+    Node getNode(int nodeID) {
+        return nodes.at(nodeID);
+    }
+
+    stack<int> getPostOrderStack() {
+        set<int> visited;
+        stack<int> postorderStack;
+
+        for (auto& pair : nodes) {
+            int nodeID = pair.first;
+            if (visited.find(nodeID) == visited.end()) {
+                dfs(nodeID, visited, postorderStack);
+            }
+        }
+
+        return postorderStack;
+    }
+
+    void dfs(int nodeID, set<int>& visited, stack<int>& postorderStack) {
+        visited.insert(nodeID);
+        for (int neighbor : nodes[nodeID].getAdjacentNodeIDs()) {
+            if (visited.find(neighbor) == visited.end()) {
+                dfs(neighbor, visited, postorderStack);
+            }
+        }
+        postorderStack.push(nodeID);
+    }
+
+    void dfsCollectSCCs(int nodeID, set<int>& visited, set<int>& scc) {
+        visited.insert(nodeID);
+        scc.insert(nodeID);
+
+        for (int neighbor : nodes[nodeID].getAdjacentNodeIDs()) {
+            if (visited.find(neighbor) == visited.end()) {
+                dfsCollectSCCs(neighbor, visited, scc);
+            }
+        }
+    }
+
+    bool loopsToSelf(int nodeID) {
+        set<int> edges = nodes.at(nodeID).getAdjacentNodeIDs();
+        bool loops = (edges.find(nodeID) != edges.end());
+
+        return loops;
     }
 
     string toString() {

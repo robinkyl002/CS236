@@ -2,3 +2,6 @@ cmake-build-debug
 CMakeLists.txt
 project5-passoff
 run-tests.sh
+int
+output.txt
+project5.dSYM
